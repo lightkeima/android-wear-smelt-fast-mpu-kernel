@@ -1534,8 +1534,8 @@ blsp_core_init:
 	}
 
 	/* We support frequencies upto FAST Mode(400KHz) */
-	if (pdata->clk_freq <= 0 ||
-			pdata->clk_freq > 400000) {
+	/*HACKED*/
+  if (pdata->clk_freq <= 0) {
 		dev_err(&pdev->dev, "clock frequency not supported\n");
 		ret = -EIO;
 		goto err_config_failed;
