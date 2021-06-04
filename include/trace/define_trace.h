@@ -59,12 +59,12 @@
 #undef TRACE_INCLUDE
 #undef __TRACE_INCLUDE
 
-#ifndef TRACE_INCLUDE_FILE
+#ifndef TRACE_INCLUDE_FILE 
 # define TRACE_INCLUDE_FILE TRACE_SYSTEM
 # define UNDEF_TRACE_INCLUDE_FILE
 #endif
 
-#ifndef TRACE_INCLUDE_PATH
+#ifndef TRACE_INCLUDE_PATH 
 # define __TRACE_INCLUDE(system) <trace/events/system.h>
 # define UNDEF_TRACE_INCLUDE_PATH
 #else
