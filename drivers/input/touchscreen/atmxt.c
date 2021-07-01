@@ -233,7 +233,7 @@ static int atmxt_probe(struct i2c_client *client,
 	struct atmxt_driver_data *dd = NULL;
 	int err = 0;
 	bool debugfail = false;
-	u32 val;
+	u32 __attribute__((unused)) val;
 
 	printk(KERN_INFO "%s: Driver: %s, Version: %s, Date: %s\n", __func__,
 		ATMXT_I2C_NAME, ATMXT_DRIVER_VERSION, ATMXT_DRIVER_DATE);

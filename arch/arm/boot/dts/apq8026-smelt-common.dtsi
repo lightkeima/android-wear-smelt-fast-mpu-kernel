@@ -17,7 +17,7 @@
 #include "qcom/msm8226-w-qseecom.dtsi"
 #include "qcom/msm8226-w-sharedmem.dtsi"
 #include "qcom/msm8226-720p-mtp.dtsi"
-#include "apq8026-smelt-gpiomux.dtsi"
+#include "apq8026-smelt-gpiomux.dtsi"	
 
 / {
 	model = "Motorola APQ 8026 Smelt";
@@ -50,62 +50,6 @@
 		wl_reg_on = <&msmgpio 28 0>;
 		wl_host_wake = <&msmgpio 29 0>;
 		status = "ok";
-	};
-
-	m4sensor {
-		compatible = "simple-bus";
-
-		rtc {
-			compatible = "mot,m4rtc";
-		};
-
-		batch {
-			compatible = "mot,m4batch";
-		};
-		accelerometer {
-			compatible = "mot,m4accelerometer";
-		};
-		compass {
-			compatible = "mot,m4compass";
-		};
-		gyro {
-			compatible = "mot,m4gyro";
-		};
-		pedometer {
-			compatible = "mot,m4pedometer";
-		};
-		passive {
-			compatible = "mot,m4passive";
-		};
-		gesture {
-			compatible = "mot,m4gesture";
-		};
-
-		display {
-			compatible = "mot,m4display";
-		};
-		download {
-			compatible = "mot,m4download";
-		};
-		stillmode {
-			compatible = "mot,m4stillmode";
-		};
-
-		heartratesensor {
-			compatible = "mot,m4heartrate";
-		};
-		fusion {
-			compatible = "mot,m4fusion";
-		};
-		ppg {
-			compatible = "mot,m4ppg";
-		};
-		significantmotion {
-			compatible = "mot,m4significantmotion";
-		};
-		simplefs {
-			compatible = "mot,m4simplefs";
-		};
 	};
 
 	dock {
@@ -428,19 +372,41 @@
 };
 
 &i2c_2 {
-	qcom,clk-ctl-xfer;
 	status = "ok";
-		m4sensorhub@43 {
-		compatible = "mot,m4sensorhub";
-		status = "ok";
-
+	inv_dev@43 {
+		compatible = "mpu9150";
 		reg = <0x43>;
-		mot,wakeirq-gpio    = <&msmgpio 5 0x00>;
-		mot,nowakeirq-gpio  = <&msmgpio 67 0x00>;
-		mot,reset-gpio  = <&msmgpio 62 0x00>;
-		mot,boot0-gpio  = <&msmgpio 109 0x00>;
-		mot,fw-filename = "m4sensorhub-p0_dali.bin";
-		mot,diffuser_enabled;
+		interrupt-parent = <&msmgpio>;
+		inven,int_config = <0x00>;
+		inven,level_shifter = <0x00>;
+		vdd_io-supply = <&pm8226_l6>;
+		vcc_i2c-supply = <&pm8226_l6>;
+		vdd-supply = <&pm8226_l19>;
+		interrupts = <27 0x2>;
+
+		axis_map_x = <1>;
+		axis_map_y = <0>;
+		axis_map_z = <2>;
+		negate_x = <0>;
+		negate_y = <0>;
+		negate_z = <1>;
+		/* If no compass sensor,
+			* replace "compass" with "none"
+			*/
+		inven,secondary_type = "compass";
+		inven,secondary_name = "ak8963";
+		inven,secondary_reg  = <0x0c>;
+		inven,secondary_axis_map_x = <1>;
+		inven,secondary_axis_map_y = <0>;
+		inven,secondary_axis_map_z = <2>;
+		inven,secondary_negate_x = <0>;
+		inven,secondary_negate_y = <0>;
+		inven,secondary_negate_z = <1>;
+
+		/* If pressure sensor,
+			* replace "none" with "pressure"
+			*/
+		inven,aux_type = "none";
 	};
 };
 

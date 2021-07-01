@@ -525,6 +525,27 @@ static struct gpiomux_setting gpio_bcm4343s_wake_config = {
 	.pull = GPIOMUX_PULL_UP,
 };
 
+static struct gpiomux_setting lis3dsh_gpio_int_high_act_cfg = {
+	.func = GPIOMUX_FUNC_GPIO,
+	.drv  = GPIOMUX_DRV_8MA,
+	.pull = GPIOMUX_PULL_DOWN,
+	.dir  = GPIOMUX_IN,
+};
+
+static struct gpiomux_setting lis3dsh_gpio_int_high_sus_cfg = {
+	.func = GPIOMUX_FUNC_GPIO,
+	.drv  = GPIOMUX_DRV_2MA,
+	.pull = GPIOMUX_PULL_DOWN,
+	.dir  = GPIOMUX_IN,
+};
+
+static struct gpiomux_setting mpu9250_gpio_int_low_act_cfg = {
+	.func = GPIOMUX_FUNC_GPIO,
+	.drv  = GPIOMUX_DRV_2MA,
+	.pull = GPIOMUX_PULL_UP,
+	.dir  = GPIOMUX_IN,
+};
+
 static struct msm_gpiomux_config msm_smelt_bcm4343s_configs[] __initdata = {
 	{
 		.gpio      = 26,	/* BT_ENABLE */
@@ -950,20 +971,27 @@ static struct gpiomux_setting cam_settings[] = {
 
 static struct msm_gpiomux_config msm_sensor_configs[] __initdata = {
 	{
-		.gpio = 26, /* CAM_MCLK0 */
+		.gpio	= 26,        /* ACCEL_INT1 */
 		.settings = {
-			[GPIOMUX_ACTIVE]    = &cam_settings[0],
-			[GPIOMUX_SUSPENDED] = &cam_settings[1],
+			[GPIOMUX_ACTIVE] = &lis3dsh_gpio_int_high_act_cfg,
+			[GPIOMUX_SUSPENDED] = &lis3dsh_gpio_int_high_sus_cfg,
 		},
 	},
 	{
-		.gpio = 27, /* CAM_MCLK1 */
+		.gpio = 28,        /* ACCEL_INT2 */
 		.settings = {
-			[GPIOMUX_ACTIVE]    = &cam_settings[0],
-			[GPIOMUX_SUSPENDED] = &cam_settings[1],
+			[GPIOMUX_ACTIVE] = &lis3dsh_gpio_int_high_act_cfg,
+			[GPIOMUX_SUSPENDED] = &lis3dsh_gpio_int_high_sus_cfg,
 		},
-
 	},
+	{
+		.gpio      = 27,        /* COMPASS_INT */
+		.settings = {
+			[GPIOMUX_ACTIVE] = &mpu9250_gpio_int_low_act_cfg,
+			[GPIOMUX_SUSPENDED] = &mpu9250_gpio_int_low_act_cfg,
+		},
+	},
+	
 	{
 		.gpio = 29, /* CCI_I2C_SDA0 */
 		.settings = {
@@ -978,13 +1006,7 @@ static struct msm_gpiomux_config msm_sensor_configs[] __initdata = {
 			[GPIOMUX_SUSPENDED] = &gpio_suspend_config[0],
 		},
 	},
-	{
-		.gpio = 28, /* CAM2_RST_N */
-		.settings = {
-			[GPIOMUX_ACTIVE]    = &cam_settings[3],
-			[GPIOMUX_SUSPENDED] = &cam_settings[4],
-		},
-	},
+
 
 };
 
